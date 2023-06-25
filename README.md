@@ -1,6 +1,4 @@
 # Socket.io-Guide
-Readme for Socket.io implementation
-Certainly! Here's a comprehensive client-side README for a beginner React frontend developer to implement the socket.io functionality of the provided code:
 
 ## Prerequisites
 
