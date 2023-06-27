@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io server</title>
+    <script
+      src=" https://cdn.jsdelivr.net/npm/socket.io-client@4.6.0/dist/socket.io.min.js"
+      integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <script>
+      // CONNECTION
+      const socket = io("http://localhost:3000");
+      socket.on("connect", () => {
+        console.log(`connected to the server with socket.id:${socket.id}`);
+      });
+
+      // SETUP
+      socket.emit("setup", { _id: "3000" }, (response) => {
+        console.log(`user joined personal room 3000`);
+      });
+
+      //   JOIN CHAT
+      setTimeout(() => {
+        socket.emit("join chat", "22", (response) => {
+          console.log(`user joined chat 22 `);
+        });
+      }, 2000);
+      ///////////////////////////////////////////////////////////////
+      const newMessageRecieved = {
+        sender: {
+          _id: "6496dc3d4f1669e1e2093bc6",
+          firstName: "Kayode",
+          lastName: "Joshua",
+          email: "bortizamle@gufum.com",
+        },
+        content: "Yall are very amazing ladies???",
+        chat: {
+          _id: "6496e0aa4f1669e1e2093bd3",
+          chatName: "sender",
+          admins: [
+            {
+              _id: "6496dc3d4f1669e1e2093bc6",
+              firstName: "Kayode",
+              lastName: "Joshua",
+              email: "bortizamle@gufum.com",
+            },
+            {
+              _id: "6485b85ba88b0ef5b45bd04f",
+              firstName: "Patricia",
+              lastName: "Lange",
+              email: "petroridra@gufum.com",
+            },
+          ],
+          createdAt: "2023-06-24T12:25:14.954Z",
+          updatedAt: "2023-06-24T12:35:42.943Z",
+          __v: 0,
+          latestMessage: "6496e31d4f1669e1e2093bf5",
+        },
+        _id: "6496e84b2f5cf090268d56e2",
+        createdAt: "2023-06-24T12:57:47.752Z",
+        updatedAt: "2023-06-24T12:57:47.752Z",
+        __v: 0,
+      };
+      //---------------------
+
+      //   NEW MESSAGE
+      setTimeout(() => {
+        socket.emit("new message", newMessageRecieved, (response) => {
+          console.log("Message object sent");
+        });
+      }, 4000);
+
+      //   MESSAGE RECIEVED
+
+      socket.on("message received", (newMessageRecieved, callback) => {
+        callback({ status: "success", message: "A new message has come in" });
+      });
+
+      //   DISCONNECTION
+      //   socket.emit("disconnect");
+    </script>
+  </body>
+</html>
